@@ -7,7 +7,7 @@ A simple python wrapper for the [Firebase API](https://firebase.google.com).
 ## Installation
 
 ```python
-pip install pyrebase4
+pip install pyrebase4lite
 ```
 
 ## Getting Started
@@ -21,33 +21,33 @@ Pyrebase was written for python 3 and will not work correctly with python 2.
 For use with only user based authentication we can create the following configuration:
 
 ```python
-import pyrebase
+import pyrebaselite
 
 config = {
-  "apiKey": "apiKey",
-  "authDomain": "projectId.firebaseapp.com",
-  "databaseURL": "https://databaseName.firebaseio.com",
-  "storageBucket": "projectId.appspot.com"
+    "apiKey": "apiKey",
+    "authDomain": "projectId.firebaseapp.com",
+    "databaseURL": "https://databaseName.firebaseio.com",
+    "storageBucket": "projectId.appspot.com"
 }
 
-firebase = pyrebase.initialize_app(config)
+firebase = pyrebaselite.initialize_app(config)
 ```
 
 We can optionally add a [service account credential](https://firebase.google.com/docs/server/setup#prerequisites) to our
 configuration that will allow our server to authenticate with Firebase as an admin and disregard any security rules.
 
 ```python
-import pyrebase
+import pyrebaselite
 
 config = {
-  "apiKey": "apiKey",
-  "authDomain": "projectId.firebaseapp.com",
-  "databaseURL": "https://databaseName.firebaseio.com",
-  "storageBucket": "projectId.appspot.com",
-  "serviceAccount": "path/to/serviceAccountCredentials.json"
+    "apiKey": "apiKey",
+    "authDomain": "projectId.firebaseapp.com",
+    "databaseURL": "https://databaseName.firebaseio.com",
+    "storageBucket": "projectId.appspot.com",
+    "serviceAccount": "path/to/serviceAccountCredentials.json"
 }
 
-firebase = pyrebase.initialize_app(config)
+firebase = pyrebaselite.initialize_app(config)
 ```
 
 Adding a service account will authenticate as an admin by default for all database queries, check out the
@@ -102,27 +102,13 @@ results = db.child("users").push(data, user['idToken'])
 ### Token expiry
 
 A user's idToken expires after 1 hour, so be sure to use the user's refreshToken to avoid stale tokens.
+
 ```
 user = auth.sign_in_with_email_and_password(email, password)
 # before the 1 hour expiry:
 user = auth.refresh(user['refreshToken'])
 # now we have a fresh token
 user['idToken']
-```
-
-### Custom tokens
-
-You can also create users using [custom tokens](https://firebase.google.com/docs/auth/server/create-custom-tokens), for example:
-```
-token = auth.create_custom_token("your_custom_id")
-```
-You can also pass in additional claims.
-```
-token_with_additional_claims = auth.create_custom_token("your_custom_id", {"premium_account": True})
-```
-You can then send these tokens to the client to sign in, or sign in as the user on the server.
-```
-user = auth.sign_in_with_custom_token(token)
 ```
 
 ### Manage Users
@@ -132,6 +118,7 @@ user = auth.sign_in_with_custom_token(token)
 ```python
 auth.create_user_with_email_and_password(email, password)
 ```
+
 Note: Make sure you have the Email/password provider enabled in your Firebase dashboard under Auth -> Sign In Method.
 
 #### Verifying emails
@@ -147,15 +134,19 @@ auth.send_password_reset_email("email")
 ```
 
 #### Get account information
+
 ```python
 auth.get_account_info(user['idToken'])
 ```
 
 #### Refreshing tokens
+
 ```python
 user = auth.refresh(user['refreshToken'])
 ```
+
 #### Delete account
+
 ```python
 auth.delete_user_account(user['idToken'])
 ```
@@ -236,6 +227,7 @@ data = {
 
 db.update(data)
 ```
+
 #### Conditional Requests
 
 It's possible to do conditional sets and removes by using the `conditional_set()` and `conitional_remove()` methods respectively. You can read more about conditional requests in Firebase [here](https://firebase.google.com/docs/reference/rest/database/#section-conditional-requests).
@@ -264,6 +256,7 @@ if type(response) is dict and "ETag" in response:
 else:
     print("We removed the data successfully!")
 ```
+
 Here's an example of looping to increase age by 1:
 
 ```python
@@ -276,6 +269,7 @@ while type(etag) is dict and "ETag" in etag:
 ### Retrieve Data
 
 #### val
+
 Queries return a PyreResponse object. Calling ```val()``` on these objects returns the query data.
 
 ```
@@ -284,6 +278,7 @@ print(users.val()) # {"Morty": {"name": "Mortimer 'Morty' Smith"}, "Rick": {"nam
 ```
 
 #### key
+
 Calling ```key()``` returns the key for the query data.
 
 ```
@@ -292,6 +287,7 @@ print(user.key()) # users
 ```
 
 #### each
+
 Returns a list of objects on each of which you can call ```val()``` and ```key()```.
 
 ```
@@ -339,7 +335,6 @@ else:
     print("We removed the data successfully!")
 ```
 
-
 #### shallow
 
 To return just the keys at a particular path use the ```shallow()``` method.
@@ -365,8 +360,6 @@ my_stream = db.child("posts").stream(stream_handler)
 
 You should at least handle `put` and `patch` events. Refer to ["Streaming from the REST API"][streaming] for details.
 
-[streaming]: https://firebase.google.com/docs/reference/rest/database/#section-streaming
-
 You can also add a ```stream_id``` to help you identify a stream if you have multiple running:
 
 ```
@@ -386,6 +379,7 @@ Queries can be built by chaining multiple query parameters together.
 ```python
 users_by_name = db.child("users").order_by_child("name").limit_to_first(3).get()
 ```
+
 This query will return the first three users ordered by name.
 
 #### order_by_child
@@ -395,6 +389,7 @@ We begin any complex query with ```order_by_child()```.
 ```python
 users_by_name = db.child("users").order_by_child("name").get()
 ```
+
 This query will return users ordered by name.
 
 #### equal_to
@@ -404,6 +399,7 @@ Return data with a specific value.
 ```python
 users_by_score = db.child("users").order_by_child("score").equal_to(10).get()
 ```
+
 This query will return users with a score of 10.
 
 #### start_at and end_at
@@ -413,6 +409,7 @@ Specify a range in your data.
 ```python
 users_by_score = db.child("users").order_by_child("score").start_at(3).end_at(10).get()
 ```
+
 This query returns users ordered by score and with a score between 3 and 10.
 
 #### limit_to_first and limit_to_last
@@ -422,6 +419,7 @@ Limits data returned.
 ```python
 users_by_score = db.child("users").order_by_child("score").limit_to_first(5).get()
 ```
+
 This query returns the first five users ordered by score.
 
 #### order_by_key
@@ -439,7 +437,6 @@ When using ```order_by_value()```, children are ordered by their value.
 ```python
 users_by_value = db.child("users").order_by_value().get()
 ```
-
 
 ## Storage
 
@@ -485,6 +482,7 @@ storage.child("images/example.jpg").get_url(user["idToken"])
 ### delete
 
 The delete method takes the path to the saved database file and user token.
+
 ```
 storage.delete("images/example.jpg",user["idToken"])
 ```
@@ -514,3 +512,5 @@ articles_by_likes = db.sort(articles, "likes")
 #### Index not defined
 
 +Indexing is [not enabled](https://firebase.google.com/docs/database/security/indexing-data) for the database reference.
+
+[streaming]: https://firebase.google.com/docs/reference/rest/database/#section-streaming
