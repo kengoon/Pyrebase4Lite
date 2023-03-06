@@ -6,7 +6,7 @@ A simple python wrapper for the [Firebase API](https://firebase.google.com).
 
 ## Installation
 
-```python
+```shell
 pip install pyrebase4lite
 ```
 
@@ -32,26 +32,6 @@ config = {
 
 firebase = pyrebaselite.initialize_app(config)
 ```
-
-We can optionally add a [service account credential](https://firebase.google.com/docs/server/setup#prerequisites) to our
-configuration that will allow our server to authenticate with Firebase as an admin and disregard any security rules.
-
-```python
-import pyrebaselite
-
-config = {
-    "apiKey": "apiKey",
-    "authDomain": "projectId.firebaseapp.com",
-    "databaseURL": "https://databaseName.firebaseio.com",
-    "storageBucket": "projectId.appspot.com",
-    "serviceAccount": "path/to/serviceAccountCredentials.json"
-}
-
-firebase = pyrebaselite.initialize_app(config)
-```
-
-Adding a service account will authenticate as an admin by default for all database queries, check out the
-[Authentication documentation](#authentication) for how to authenticate users.
 
 ### Use Services
 

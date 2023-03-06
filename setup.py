@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='Pyrebase4',
-    version='4.6.0',
-    url='https://github.com/nhorvath/Pyrebase4',
+    name='Pyrebase4Lite',
+    version='0.1.0',
+    url='https://github.com/kengoon/Pyrebase4Lite',
     description='A simple python wrapper for the Firebase API with current deps',
     author='Kenechukwu Akubue',
     license='MIT',
