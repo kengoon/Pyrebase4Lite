@@ -1,4 +1,4 @@
-# Pyrebase4
+# Pyrebase4Lite
 
 A simple python wrapper for the [Firebase API](https://firebase.google.com).
 
