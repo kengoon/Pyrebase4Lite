@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='Pyrebase4Lite',
-    version='0.1.0',
+    version='0.1.1',
     url='https://github.com/kengoon/Pyrebase4Lite',
     description='A simple python wrapper for the Firebase API with current deps',
     author='Kenechukwu Akubue',

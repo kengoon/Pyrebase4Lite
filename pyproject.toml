@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Pyrebase4Lite"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["kengoon <kengoon19@gmail.com>"]
 readme = "README.md"
