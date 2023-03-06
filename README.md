@@ -2,6 +2,8 @@
 
 A simple python wrapper for the [Firebase API](https://firebase.google.com).
 
+**This is a fork of [Pyrebase4](https://github.com/nhorvath/Pyrebase4) with the heavy dependecies and the admin priveledge removed**
+
 ## Installation
 
 ```python
